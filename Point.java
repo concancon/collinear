@@ -111,7 +111,7 @@ public class Point implements Comparable<Point> {
             double slopeQ = slopeTo(q);
 
             if (slopeP < slopeQ) return -1;
-            if (slopeP > slopeQ) return +1;
+            else if (slopeP > slopeQ) return 1;
             return 0;
         }
     }
@@ -144,5 +144,9 @@ public class Point implements Comparable<Point> {
      */
     public static void main(String[] args) {
         /* YOUR CODE HERE */
+        Point point = new Point(2, 1);
+        Point secondPoint = new Point(2, 1);
+        System.out.println(secondPoint.slopeTo(point));
+
     }
 }
