@@ -15,8 +15,9 @@ public class FastCollinearPoints {
         Point[] pointsCopy = points.clone();
         Arrays.sort(pointsCopy);
 
-        //double currentSlope = 0;
+        double currentSlope = Double.MIN_VALUE;
         ArrayList<Double> seenslopes = new ArrayList<>();
+
         for (int i = 0; (i + 3) < points.length; i++) {
             //  we sort the points according to their slope relative to the ith point
             Arrays.sort(points, pointsCopy[i].slopeOrder());
@@ -29,8 +30,14 @@ public class FastCollinearPoints {
             }
 
             int counter = 0;
-            Point maximum = new Point(0, 0);
-            for (int j = 0; j < points.length - 3; j++) {
+            Point maximum = new Point(Integer.MIN_VALUE, Integer.MIN_VALUE);
+            //double currentSlope = pointsCopy[i].slopeTo(points[i + 1]);
+            System.out.println("reset current slope to:" + currentSlope);
+
+            for (int j = 0;
+                 j < points.length - 3;
+                 j++) {
+
 
                 if (pointsCopy[i].slopeTo(points[j + 1]) == pointsCopy[i].slopeTo(points[j + 2])
                         && pointsCopy[i].slopeTo(points[j + 1]) == pointsCopy[i]
@@ -49,39 +56,56 @@ public class FastCollinearPoints {
                         System.out.println(p);
                     }
 
+
+                    //TODO:  we want to also iterate through each slope that corresponds to a point while also storing the maximal segment that
+                    // corresponds to a given slope
+
                     if (pClone[pClone.length - 1].compareTo(maximum) > 0) {
                         maximum = pClone[pClone.length - 1];
                     }
+
+
+                    currentSlope = pointsCopy[i].slopeTo(maximum);
+
+
                     // get the maximum point according to natural order and then create a segment from the origin to it below
                     System.out.println(
-                            points[i] + " slope to " + (points[j + 1]) + "= " + points[i]
+                            pointsCopy[i] + " slope to " + (points[j + 1]) + "= " + points[i]
                                     + "slope to" + (points[j + 2]) + "=" +
                                     points[i].slopeTo(points[j + 1]) +
                                     "&& " + points[i] + "slope to " + (points[j + 1]) + "= "
                                     + points[i]
-                                    + "slope to" + (points[j + 3]) + "slope: " + points[i]
+                                    + "slope to" + (points[j + 3]) + "slope: " + pointsCopy[i]
                                     .slopeTo(points[j + 1]));
+                    if (currentSlope != Double.MIN_VALUE) {
+                        System.out
+                                .println("we shall store segment: " + pointsCopy[i] + "-> "
+                                                 + maximum);
+
+                        System.out.println("currentSlope is now: " + currentSlope);
+                        LineSegment seg = new LineSegment(pointsCopy[i], maximum);
+                        ls.add(seg);
+
+                    }
 
 
                 }
 
 
             }
-
-            System.out.println("segment between" + pointsCopy[i] + "-> " + maximum);
+            System.out.println("counter is: " + counter);
 
 
             double seenSlope = pointsCopy[i].slopeTo(maximum);
-            boolean test = seenSlope == Double.POSITIVE_INFINITY;
+
 
             if (counter > 0 && (!seenslopes
                     .contains(seenSlope))) {
+                System.out.println("segment between" + pointsCopy[i] + "-> " + maximum);
 
-                //case with slope 0:
-                //if the smallest point is smaller than
 
                 LineSegment seg = new LineSegment(pointsCopy[i], maximum);
-                ls.add(seg);
+                //ls.add(seg);
                 if (seenSlope != 0 && seenSlope != Double.POSITIVE_INFINITY)
                     seenslopes.add(seenSlope);
 
