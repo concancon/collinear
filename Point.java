@@ -94,15 +94,16 @@ public class Point implements Comparable<Point> {
      */
     public int compareTo(Point that) {
 
-        if (this.x == that.x && this.y == that.y) return 0;
 
-        if (this.y <= that.y && this.x < that.x) return -1;
+        if (this.y < that.y || (this.y == that.y && this.x < that.x)) return -1;
 
-        return 1;
+        if (this.y > that.y || (this.y == that.y && this.x > that.x)) return 1;
+
+        return 0;
 
     }
 
-    // compare points according to their x-coordinate
+    // compare points according to their slope
     private class SlopesOrder implements Comparator<Point> {
         public int compare(Point p, Point q) {
             // first we calculate the slopes of (x0,y0) to (x1,y1),
@@ -144,9 +145,21 @@ public class Point implements Comparable<Point> {
      */
     public static void main(String[] args) {
         /* YOUR CODE HERE */
-        Point point = new Point(2, 1);
-        Point secondPoint = new Point(2, 1);
-        System.out.println(secondPoint.slopeTo(point));
+        Point p = new Point(12526, 7062);
+        Point q = new Point(28901, 14793);
+        Point r = new Point(11534, 21237);
+        Point s = new Point(1827, 14348);
 
+
+        System.out.println("ptoq: " + p.slopeTo(q));
+        System.out.println("ptor: " + p.slopeTo(r));
+        System.out.println(p.slopeOrder().compare(q, r));
+        System.out.println("ptor: " + p.slopeTo(r));
+        System.out.println("ptos: " + p.slopeTo(s));
+        System.out.println(p.slopeOrder().compare(r, s));
+        System.out.println("ptoq: " + p.slopeTo(q));
+        System.out.println("ptos: " + p.slopeTo(s));
+        System.out.println(p.slopeOrder().compare(q, s));
+        //System.out.println(secondPoint.compareTo(point));
     }
 }

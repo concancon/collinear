@@ -7,11 +7,11 @@ import java.util.Arrays;
 public class BruteCollinearPoints {
 
 
-    private ArrayList<LineSegment> ls = new ArrayList<>();
+    private final ArrayList<LineSegment> ls = new ArrayList<>();
 
 
     // finds all line segments containing 4 points
-    public BruteCollinearPoints(Point[] points) {
+    public BruteCollinearPoints(final Point[] points) {
 
         if (points == null) {
             throw new IllegalArgumentException();
@@ -58,7 +58,7 @@ public class BruteCollinearPoints {
 
     // the line segments
     public LineSegment[] segments() {
-        LineSegment[] seg = ls.toArray(new LineSegment[ls.size()]);
+        LineSegment[] seg = ls.toArray(new LineSegment[ls.size()]).clone();
 
         return seg;
     }
@@ -73,17 +73,21 @@ public class BruteCollinearPoints {
         Point p4 = new Point(3, 3);
 
         Point p5 = new Point(5, 0);
-        Point p6 = new Point(5, 0);
+        Point p6 = new Point(4, 1);
         Point p7 = new Point(3, 2);
         Point p8 = new Point(2, 3);
 
         Point[] pArray = { p1, p2, p3, p4, p5, p6, p7, p8 };
         BruteCollinearPoints bcp = new BruteCollinearPoints(pArray);
+        //Arrays.sort(pArray, p1.slopeOrder());
+
         StdDraw.enableDoubleBuffering();
         StdDraw.setXscale(0, 5);
         StdDraw.setYscale(0, 5);
         for (Point p : pArray) {
+            System.out.println(p);
             p.draw();
+
         }
         StdDraw.show();
 
