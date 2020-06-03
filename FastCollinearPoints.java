@@ -14,31 +14,29 @@ public class FastCollinearPoints {
 
         Point[] pointsCopy = points.clone();
         Arrays.sort(pointsCopy);
+        System.out.println("natural order: ");
+        for (Point p : points) {
+            System.out.println(p);
+        }
 
-        double currentSlope = Double.MIN_VALUE;
-        ArrayList<Double> seenslopes = new ArrayList<>();
+        double currentSlope = 0;
+
 
         for (int i = 0; (i + 3) < points.length; i++) {
             //  we sort the points according to their slope relative to the ith point
             Arrays.sort(points, pointsCopy[i].slopeOrder());
-            // Arrays.sort(points);
-
-            // if (Arrays.equals(points, pointsCopy)) {
-            System.out.println("Slope order with respect to point: " + pointsCopy[i]);
+            System.out.println("slope order with respect to " + pointsCopy[i]);
             for (Point p : points) {
                 System.out.println(p);
             }
-
             int counter = 0;
-            Point maximum = new Point(Integer.MIN_VALUE, Integer.MIN_VALUE);
+            Point maximum = pointsCopy[i];
             //double currentSlope = pointsCopy[i].slopeTo(points[i + 1]);
-            System.out.println("reset current slope to:" + currentSlope);
+
 
             for (int j = 0;
                  j < points.length - 3;
                  j++) {
-
-
                 if (pointsCopy[i].slopeTo(points[j + 1]) == pointsCopy[i].slopeTo(points[j + 2])
                         && pointsCopy[i].slopeTo(points[j + 1]) == pointsCopy[i]
                         .slopeTo(points[j + 3])) {
@@ -60,14 +58,17 @@ public class FastCollinearPoints {
                     //TODO:  we want to also iterate through each slope that corresponds to a point while also storing the maximal segment that
                     // corresponds to a given slope
 
+
                     if (pClone[pClone.length - 1].compareTo(maximum) > 0) {
+                        Point otherMaximum = maximum;
                         maximum = pClone[pClone.length - 1];
+                        if (currentSlope != points[i].slopeTo(maximum)) {
+                            System.out.println("there was a change in the slope");
+                            System.out.println("the previous maximum was: " + pointsCopy[i] + "to "
+                                                       + otherMaximum);
+                        }
+                        currentSlope = pointsCopy[i].slopeTo(maximum);
                     }
-
-
-                    currentSlope = pointsCopy[i].slopeTo(maximum);
-
-
                     // get the maximum point according to natural order and then create a segment from the origin to it below
                     System.out.println(
                             pointsCopy[i] + " slope to " + (points[j + 1]) + "= " + points[i]
@@ -76,13 +77,15 @@ public class FastCollinearPoints {
                                     "&& " + points[i] + "slope to " + (points[j + 1]) + "= "
                                     + points[i]
                                     + "slope to" + (points[j + 3]) + "slope: " + pointsCopy[i]
-                                    .slopeTo(points[j + 1]));
+                                    .slopeTo(maximum));
                     if (currentSlope != Double.MIN_VALUE) {
                         System.out
                                 .println("we shall store segment: " + pointsCopy[i] + "-> "
                                                  + maximum);
 
-                        System.out.println("currentSlope is now: " + currentSlope);
+
+                        System.out.println("reset current slope to:" + currentSlope);
+
                         LineSegment seg = new LineSegment(pointsCopy[i], maximum);
                         ls.add(seg);
 
@@ -93,13 +96,14 @@ public class FastCollinearPoints {
 
 
             }
-            System.out.println("counter is: " + counter);
+
+            //System.out.println("counter is: " + counter);
+            System.out.println("after maximum for point: " + pointsCopy[i] + "is " + maximum);
+
+            //double seenSlope = pointsCopy[i].slopeTo(maximum);
 
 
-            double seenSlope = pointsCopy[i].slopeTo(maximum);
-
-
-            if (counter > 0 && (!seenslopes
+           /* if (counter > 0 && (!seenslopes
                     .contains(seenSlope))) {
                 System.out.println("segment between" + pointsCopy[i] + "-> " + maximum);
 
@@ -110,7 +114,7 @@ public class FastCollinearPoints {
                     seenslopes.add(seenSlope);
 
 
-            }
+            }*/
 
         }
     }
