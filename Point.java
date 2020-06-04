@@ -145,21 +145,5 @@ public class Point implements Comparable<Point> {
      */
     public static void main(String[] args) {
         /* YOUR CODE HERE */
-        Point p = new Point(12526, 7062);
-        Point q = new Point(28901, 14793);
-        Point r = new Point(11534, 21237);
-        Point s = new Point(1827, 14348);
-
-
-        System.out.println("ptoq: " + p.slopeTo(q));
-        System.out.println("ptor: " + p.slopeTo(r));
-        System.out.println(p.slopeOrder().compare(q, r));
-        System.out.println("ptor: " + p.slopeTo(r));
-        System.out.println("ptos: " + p.slopeTo(s));
-        System.out.println(p.slopeOrder().compare(r, s));
-        System.out.println("ptoq: " + p.slopeTo(q));
-        System.out.println("ptos: " + p.slopeTo(s));
-        System.out.println(p.slopeOrder().compare(q, s));
-        //System.out.println(secondPoint.compareTo(point));
     }
 }
